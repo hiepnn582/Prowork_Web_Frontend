@@ -2,18 +2,17 @@
 
 ## Mục lục
 1. [Cấu hình dự án](#cấu-hình-dự-án)
-2. [Composition API](#composition-api)
-3. [TypeScript Types](#typescript-types)
-4. [Component Structure](#component-structure)
-5. [Props & Emits](#props--emits)
-6. [Composables](#composables)
-7. [State Management](#state-management)
-8. [Performance](#performance)
-9. [Testing](#testing)
+2. [TypeScript Types](#typescript-types)
+3. [Component Structure](#component-structure)
+4. [Props & Emits](#props--emits)
+5. [Composables](#composables)
+6. [State Management](#state-management)
+7. [Performance](#performance)
+8. [Testing](#testing)
 
 ---
 
-## Cấu hình dự án
+## 1. Cấu hình dự án
 
 ### tsconfig.json
 ```json
@@ -34,67 +33,9 @@
 }
 ```
 
-### Sử dụng `<script setup>` với TypeScript
-`<script setup>` là cách được khuyến nghị cho Vue 3 với TypeScript vì cú pháp ngắn gọn và type inference tốt hơn.
-
 ---
 
-## Composition API
-
-### ✅ Nên làm
-```typescript
-<script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-
-const count = ref<number>(0)
-const doubled = computed(() => count.value * 2)
-
-const increment = () => {
-  count.value++
-}
-
-onMounted(() => {
-  console.log('Component mounted')
-})
-</script>
-```
-
-### ❌ Không nên
-```typescript
-// Tránh sử dụng Options API với TypeScript
-export default {
-  data() {
-    return {
-      count: 0 // Khó type checking
-    }
-  }
-}
-```
-
----
-
-## TypeScript Types
-
-### Định nghĩa Interface cho dữ liệu
-```typescript
-<script setup lang="ts">
-interface User {
-  id: number
-  name: string
-  email: string
-  role: 'admin' | 'user'
-}
-
-interface ApiResponse<T> {
-  data: T
-  status: number
-  message: string
-}
-
-const user = ref<User | null>(null)
-const users = ref<User[]>([])
-</script>
-```
+## 2. TypeScript Types
 
 ### Sử dụng Generic Types
 ```typescript
@@ -109,28 +50,9 @@ const userData = await fetchData<User>('/api/user')
 </script>
 ```
 
-### Type cho Reactive Objects
-```typescript
-<script setup lang="ts">
-import { reactive } from 'vue'
-
-interface FormState {
-  username: string
-  password: string
-  rememberMe: boolean
-}
-
-const form = reactive<FormState>({
-  username: '',
-  password: '',
-  rememberMe: false
-})
-</script>
-```
-
 ---
 
-## Component Structure
+## 3. Component Structure
 
 ### Tổ chức thứ tự trong `<script setup>`
 ```typescript
@@ -178,7 +100,7 @@ watch(() => props.count, (newVal) => {
 
 ---
 
-## Props & Emits
+## 4. Props & Emits
 
 ### Định nghĩa Props với TypeScript
 ```typescript
@@ -243,7 +165,7 @@ const localValue = computed({
 
 ---
 
-## Composables
+## 5. Composables
 
 ### Tạo Composable có type-safe
 ```typescript
@@ -335,56 +257,7 @@ export function useApi<T>(url: string): UseApiReturn<T> {
 
 ---
 
-## State Management
-
-### Pinia với TypeScript
-```typescript
-// stores/userStore.ts
-import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
-
-interface User {
-  id: number
-  name: string
-  email: string
-}
-
-export const useUserStore = defineStore('user', () => {
-  // State
-  const user = ref<User | null>(null)
-  const isAuthenticated = computed(() => user.value !== null)
-  
-  // Actions
-  const setUser = (userData: User) => {
-    user.value = userData
-  }
-  
-  const logout = () => {
-    user.value = null
-  }
-  
-  const updateProfile = async (data: Partial<User>) => {
-    if (!user.value) return
-    
-    // API call
-    const response = await fetch(`/api/users/${user.value.id}`, {
-      method: 'PATCH',
-      body: JSON.stringify(data)
-    })
-    
-    const updated = await response.json()
-    user.value = { ...user.value, ...updated }
-  }
-  
-  return {
-    user,
-    isAuthenticated,
-    setUser,
-    logout,
-    updateProfile
-  }
-})
-```
+## 6. State Management
 
 ### Sử dụng Store trong Component
 ```typescript
@@ -405,7 +278,7 @@ const handleLogout = () => {
 
 ---
 
-## Performance
+## 7. Performance
 
 ### Lazy Loading Components
 ```typescript
@@ -460,7 +333,7 @@ const items = ref<Item[]>(/* large array */)
 
 ---
 
-## Testing
+## 8. Testing
 
 ### Unit Test với Vitest
 ```typescript
@@ -527,25 +400,7 @@ describe('useCounter', () => {
 
 ## Các quy tắc chung
 
-### 1. Luôn khai báo types cho Props và Emits
-```typescript
-// ✅ Tốt
-const props = defineProps<{ title: string }>()
-
-// ❌ Không tốt
-const props = defineProps(['title'])
-```
-
-### 2. Sử dụng `const` cho mọi reactive state
-```typescript
-// ✅ Tốt
-const count = ref(0)
-
-// ❌ Không tốt
-let count = ref(0)
-```
-
-### 3. Tránh `any` type
+### 1. Tránh `any` type
 ```typescript
 // ❌ Tránh
 const data = ref<any>(null)
@@ -556,35 +411,10 @@ const data = ref<User | null>(null)
 const data = ref<unknown>(null)
 ```
 
-### 4. Đặt tên file component với PascalCase
+### 2. Đặt tên file component với PascalCase
 ```
 ✅ UserProfile.vue
 ✅ ProductCard.vue
 ❌ userProfile.vue
 ❌ product-card.vue
 ```
-
-### 5. Sử dụng TypeScript strict mode
-```json
-{
-  "compilerOptions": {
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true
-  }
-}
-```
-
----
-
-## Tài nguyên tham khảo
-
-- [Vue 3 Documentation](https://vuejs.org/)
-- [Vue TypeScript Guide](https://vuejs.org/guide/typescript/overview.html)
-- [Pinia Documentation](https://pinia.vuejs.org/)
-- [Vue Router TypeScript](https://router.vuejs.org/guide/advanced/typescript.html)
-- [Vite Documentation](https://vitejs.dev/)
-
----
-
-**Lưu ý:** Best practices này được cập nhật cho Vue 3.4+ và TypeScript 5+. Một số API có thể thay đổi trong các phiên bản mới hơn.
