@@ -1,17 +1,14 @@
 <script setup lang="ts">
 //#region Imports
+import { computed } from 'vue';
 import { ElInput } from 'element-plus';
-import { type IInputConfig, type IInputProps } from './base-input.config';
-import { PLACEHOLDER } from '@/constants/index.constants';
+import { type TInputConfig, type IInputProps, DEFAULT_CONFIG } from './base-input.config';
 //#endregion
 
 //#region Props & Emits
-const props = withDefaults(defineProps<IInputProps>(), {
-  config: () =>
-    ({
-      placeholder: PLACEHOLDER.TYPE_VALUE,
-    }) as IInputConfig,
-});
+const props = defineProps<IInputProps>();
+
+const value = defineModel<string | number>('value');
 //#endregion
 
 //#region Composables
@@ -23,7 +20,12 @@ const props = withDefaults(defineProps<IInputProps>(), {
 //#endregion
 
 //#region Computed
-
+const mergedConfig = computed<TInputConfig>(() => {
+  const config = props.config ? { ...DEFAULT_CONFIG, ...props.config } : DEFAULT_CONFIG;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { modelValue: _, ...restConfig } = config;
+  return restConfig as TInputConfig;
+});
 //#endregion
 
 //#region Methods
@@ -44,5 +46,5 @@ const props = withDefaults(defineProps<IInputProps>(), {
 </script>
 
 <template>
-  <el-input v-bind="props.config" />
+  <el-input v-model="value" v-bind="mergedConfig" />
 </template>

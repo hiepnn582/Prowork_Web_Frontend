@@ -1,11 +1,19 @@
 import type { InputProps } from 'element-plus';
+import { PLACEHOLDER } from '@/constants/index.constants';
 
-interface IInputConfig extends InputProps {
+type TInputConfig = Partial<InputProps> & TCustomInputConfig;
+
+type TCustomInputConfig = {
   fieldName?: string;
-}
+};
 
 interface IInputProps {
-  config?: IInputConfig;
+  modelValue?: string | number;
+  config?: TInputConfig;
 }
 
-export { type IInputConfig, type IInputProps };
+const DEFAULT_CONFIG: TInputConfig = {
+  placeholder: PLACEHOLDER.TYPE_VALUE,
+};
+
+export { type TInputConfig, type IInputProps, DEFAULT_CONFIG };

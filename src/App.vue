@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { BaseInput } from './components/index.components';
+import { RegisterPage } from './features/index.views';
 </script>
 
 <template>
-  <h1 class="text-main">Hello World!</h1>
-  <BaseInput />
+  <RegisterPage />
 </template>
