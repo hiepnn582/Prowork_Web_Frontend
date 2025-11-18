@@ -1,7 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { RegisterPage } from './features/index.views';
+</script>
 
 <template>
-  <h1 class="text-main">Hello World!</h1>
+  <RegisterPage />
 </template>
-
-<style scoped></style>
