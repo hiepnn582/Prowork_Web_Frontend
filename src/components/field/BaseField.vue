@@ -9,6 +9,10 @@ import { type TFormItemConfig, type IFieldProps, DEFAULT_CONFIG } from './base-f
 
 //#region Props & Emits
 const props = defineProps<IFieldProps>();
+
+const emit = defineEmits<{
+  onClick: [];
+}>();
 //#endregion
 
 //#region Composables
@@ -27,12 +31,16 @@ const error = ref({
 
 //#region Computed
 const mergedConfig = computed<TFormItemConfig>(() =>
-  props.config ? { ...DEFAULT_CONFIG, ...error, ...props.config } : { ...DEFAULT_CONFIG, ...error },
+  props.config
+    ? { ...DEFAULT_CONFIG, ...error.value, ...props.config }
+    : { ...DEFAULT_CONFIG, ...error.value },
 );
 //#endregion
 
 //#region Methods
-
+const handleClickButton = () => {
+  emit('onClick');
+};
 //#endregion
 
 //#region Lifecycle hooks
@@ -50,6 +58,13 @@ const mergedConfig = computed<TFormItemConfig>(() =>
 
 <template>
   <el-form-item v-bind="mergedConfig">
-    <component :is="fieldComponentMapper[fieldType]" v-model="value" v-bind="fieldConfig" />
+    <component
+      v-model="value"
+      :config="fieldConfig"
+      :is="fieldComponentMapper[fieldType]"
+      @onClick="handleClickButton"
+    >
+      <slot />
+    </component>
   </el-form-item>
 </template>

@@ -7,6 +7,10 @@ import { type TButtonConfig, type IButtonProps, DEFAULT_CONFIG } from './base-bu
 
 //#region Props & Emits
 const props = defineProps<IButtonProps>();
+
+const emit = defineEmits<{
+  onClick: [];
+}>();
 //#endregion
 
 //#region Composables
@@ -24,7 +28,9 @@ const mergedConfig = computed<TButtonConfig>(() =>
 //#endregion
 
 //#region Methods
-
+const handleClickButton = () => {
+  emit('onClick');
+};
 //#endregion
 
 //#region Lifecycle hooks
@@ -41,7 +47,7 @@ const mergedConfig = computed<TButtonConfig>(() =>
 </script>
 
 <template>
-  <div class="base-button-wrapper">
+  <div class="base-button-wrapper" :class="mergedConfig.class" @click="handleClickButton">
     <el-button v-bind="mergedConfig">
       <slot />
     </el-button>

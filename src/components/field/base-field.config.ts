@@ -3,7 +3,11 @@ import { EFieldType } from '@/constants/index.constants';
 import type { TInputConfig } from '../input/base-input.config';
 import type { TButtonConfig } from '../button/base-button.config';
 
-type TFormItemConfig = Partial<FormItemProps>;
+type TFormItemConfig = Partial<FormItemProps> & TCustomFieldConfig;
+
+type TCustomFieldConfig = {
+  class?: string;
+};
 
 type TFieldConfig = TInputConfig | TButtonConfig;
 

@@ -1,21 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import * as yup from 'yup';
 import { useForm } from 'vee-validate';
 import { Lock, Message } from '@element-plus/icons-vue';
 import { Icon } from '@iconify/vue';
 import { EFieldType } from '@/constants/index.constants';
-import { BaseField, BaseButton, BaseInput } from '@/components/index.components';
+import { BaseField } from '@/components/index.components';
 import type { TInputConfig } from '@/components/input/base-input.config';
 import type { TButtonConfig } from '@/components/button/base-button.config';
 
-const { values } = useForm({
+const { values, handleSubmit } = useForm({
   validationSchema: yup.object({
     account: yup.string().trim().required('123'),
+    password: yup.string().trim().required('123'),
   }),
 });
-
-const passwordValue = ref<string>('');
 
 const inputAccountConfig: TInputConfig = {
   placeholder: 'Email',
@@ -40,6 +38,12 @@ const btnGoogleConfig: TButtonConfig = {
 const btnFacebookConfig: TButtonConfig = {
   type: 'default',
 };
+
+const onSubmit = handleSubmit(() => {});
+
+const onClickSubmit = () => {
+  onSubmit();
+};
 </script>
 
 <template>
@@ -49,16 +53,41 @@ const btnFacebookConfig: TButtonConfig = {
       :field-type="EFieldType.Input"
       :field-config="inputAccountConfig"
     />
-    <BaseInput v-model:value="passwordValue" :config="inputPasswordConfig" />
-    <BaseButton :config="btnForgotConfig"> Forgot Password? </BaseButton>
-    <BaseButton :config="btnSubmitConfig"> Get Started </BaseButton>
+    <BaseField
+      field-name="password"
+      :field-type="EFieldType.Input"
+      :field-config="inputPasswordConfig"
+    />
+    <BaseField
+      field-name="forgotButton"
+      :field-type="EFieldType.Button"
+      :field-config="btnForgotConfig"
+    >
+      Forgot Password?
+    </BaseField>
+    <BaseField
+      field-name="submitButton"
+      :field-type="EFieldType.Button"
+      :field-config="btnSubmitConfig"
+      @onClick="() => onClickSubmit()"
+    >
+      Get Started
+    </BaseField>
     <div class="flex items-center justify-between">
-      <BaseButton :config="btnGoogleConfig">
+      <BaseField
+        field-name="googlePasswordButton"
+        :field-type="EFieldType.Button"
+        :field-config="btnGoogleConfig"
+      >
         <Icon icon="material-icon-theme:google" :width="18" :height="18" />
-      </BaseButton>
-      <BaseButton :config="btnFacebookConfig">
+      </BaseField>
+      <BaseField
+        field-name="facebookPasswordButton"
+        :field-type="EFieldType.Button"
+        :field-config="btnFacebookConfig"
+      >
         <Icon icon="logos:facebook" :width="18" :height="18" />
-      </BaseButton>
+      </BaseField>
     </div>
     <p>{{ values }}</p>
   </div>
