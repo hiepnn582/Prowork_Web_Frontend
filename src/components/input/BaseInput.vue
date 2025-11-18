@@ -7,8 +7,6 @@ import { type TInputConfig, type IInputProps, DEFAULT_CONFIG } from './base-inpu
 
 //#region Props & Emits
 const props = defineProps<IInputProps>();
-
-const value = defineModel<string | number>('value');
 //#endregion
 
 //#region Composables
@@ -46,5 +44,5 @@ const mergedConfig = computed<TInputConfig>(() => {
 </script>
 
 <template>
-  <el-input v-model="value" v-bind="mergedConfig" />
+  <el-input v-bind="mergedConfig" />
 </template>

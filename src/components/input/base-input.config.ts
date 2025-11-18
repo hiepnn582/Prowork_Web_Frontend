@@ -8,7 +8,6 @@ type TCustomInputConfig = {
 };
 
 interface IInputProps {
-  modelValue?: string | number;
   config?: TInputConfig;
 }
 

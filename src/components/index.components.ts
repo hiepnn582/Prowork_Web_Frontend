@@ -1,4 +1,7 @@
-import BaseInput from './input/BaseInput.vue';
-import BaseButton from './button/BaseButton.vue';
+import { defineAsyncComponent } from 'vue';
 
-export { BaseInput, BaseButton };
+const BaseField = defineAsyncComponent(() => import('./field/BaseField.vue'));
+const BaseInput = defineAsyncComponent(() => import('./input/BaseInput.vue'));
+const BaseButton = defineAsyncComponent(() => import('./button/BaseButton.vue'));
+
+export { BaseField, BaseInput, BaseButton };

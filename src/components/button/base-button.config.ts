@@ -7,7 +7,6 @@ type TCustomButtonConfig = {
 };
 
 interface IButtonProps {
-  modelValue?: string | number;
   config?: TButtonConfig;
 }
 
