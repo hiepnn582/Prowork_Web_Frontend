@@ -1,2 +1,7 @@
 @import './element-plus.css';
 @import './tailwindcss.css';
+
+::selection {
+  color: white;
+  background-color: var(--el-color-primary);
+}
