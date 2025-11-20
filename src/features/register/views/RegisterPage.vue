@@ -1,17 +1,26 @@
 <script setup lang="ts">
+//#region Imports
+import { h } from 'vue';
 import * as yup from 'yup';
 import { useForm } from 'vee-validate';
-import { Lock, Message } from '@element-plus/icons-vue';
 import { Icon } from '@iconify/vue';
+import { Lock, Message } from '@element-plus/icons-vue';
 import { EFieldType } from '@/constants/index.constants';
-import { BaseField } from '@/components/index.components';
+import { BaseField, BaseForm } from '@/components/index.components';
+import type { TFormConfig } from '@/components/form/base-form.config';
 import type { TInputConfig } from '@/components/input/base-input.config';
 import type { TButtonConfig } from '@/components/button/base-button.config';
+//#endregion
 
+//#region Props & Emits
+
+//#endregion
+
+//#region Composables
 const { values, handleSubmit } = useForm({
   validationSchema: yup.object({
-    account: yup.string().trim().required('123'),
-    password: yup.string().trim().required('123'),
+    account: yup.string().trim().required('Account is required'),
+    password: yup.string().trim().required('Password is required'),
   }),
 });
 
@@ -38,41 +47,68 @@ const btnGoogleConfig: TButtonConfig = {
 const btnFacebookConfig: TButtonConfig = {
   type: 'default',
 };
+//#endregion
 
+//#region Reactive state
+
+//#endregion
+
+//#region Computed
+
+//#endregion
+
+//#region Methods
 const onSubmit = handleSubmit(() => {});
 
 const onClickSubmit = () => {
   onSubmit();
 };
+
+const formConfig: TFormConfig = {
+  fieldPropsList: [
+    {
+      fieldName: 'account',
+      fieldType: EFieldType.Input,
+      fieldConfig: inputAccountConfig,
+    },
+    {
+      fieldName: 'password',
+      fieldType: EFieldType.Input,
+      fieldConfig: inputPasswordConfig,
+    },
+    {
+      fieldName: 'forgotButton',
+      fieldType: EFieldType.Button,
+      fieldConfig: btnForgotConfig,
+      content: () => h('span', null, 'Forgot Password?'),
+    },
+    {
+      fieldName: 'submitButton',
+      fieldType: EFieldType.Button,
+      fieldConfig: btnSubmitConfig,
+      content: () => h('span', null, 'Get Started'),
+      onClick: onClickSubmit,
+    },
+  ],
+};
+//#endregion
+
+//#region Lifecycle hooks
+
+//#endregion
+
+//#region Watch/WatchEffect
+
+//#endregion
+
+//#region Expose
+
+//#endregion
 </script>
 
 <template>
   <div class="p-[20px] w-1/2">
-    <BaseField
-      field-name="account"
-      :field-type="EFieldType.Input"
-      :field-config="inputAccountConfig"
-    />
-    <BaseField
-      field-name="password"
-      :field-type="EFieldType.Input"
-      :field-config="inputPasswordConfig"
-    />
-    <BaseField
-      field-name="forgotButton"
-      :field-type="EFieldType.Button"
-      :field-config="btnForgotConfig"
-    >
-      Forgot Password?
-    </BaseField>
-    <BaseField
-      field-name="submitButton"
-      :field-type="EFieldType.Button"
-      :field-config="btnSubmitConfig"
-      @onClick="() => onClickSubmit()"
-    >
-      Get Started
-    </BaseField>
+    <BaseForm :config="formConfig" />
     <div class="flex items-center justify-between">
       <BaseField
         field-name="googlePasswordButton"

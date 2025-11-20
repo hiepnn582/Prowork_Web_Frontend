@@ -26,7 +26,6 @@ const error = ref({
   error: errorMessage,
   validateEvent: true,
 });
-
 //#endregion
 
 //#region Computed
@@ -39,7 +38,11 @@ const mergedConfig = computed<TFormItemConfig>(() =>
 
 //#region Methods
 const handleClickButton = () => {
-  emit('onClick');
+  if (props.onClick) {
+    props.onClick();
+  } else {
+    emit('onClick');
+  }
 };
 //#endregion
 
