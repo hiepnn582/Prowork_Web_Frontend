@@ -1,6 +1,15 @@
 @import './element-plus.css';
 @import './tailwindcss.css';
 
+:root {
+  --app-color-black: #212121;
+}
+
+html {
+  color: var(--app-color-black);
+  font-size: 14px;
+}
+
 ::selection {
   color: white;
   background-color: var(--el-color-primary);
