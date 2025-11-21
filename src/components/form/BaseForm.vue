@@ -52,9 +52,7 @@ const handleClickField = () => {
     <BaseField
       v-for="(fieldProp, index) in mergedConfig.fieldPropsList"
       :key="index"
-      :fieldName="fieldProp.fieldName"
-      :fieldType="fieldProp.fieldType"
-      :fieldConfig="fieldProp.fieldConfig"
+      v-bind="fieldProp"
     >
       <component v-if="fieldProp.content" :is="fieldProp.content()" @onClick="handleClickField" />
     </BaseField>

@@ -8,3 +8,15 @@
   --el-color-primary-light-9: #e4d1f1;
   --el-color-primary-dark-2: #830fd0;
 }
+
+.el-form-item {
+  margin-bottom: 0;
+}
+
+.el-form-item + .el-form-item {
+  margin-top: 10px;
+}
+
+.el-form-item.is-error {
+  margin-bottom: 22px;
+}
