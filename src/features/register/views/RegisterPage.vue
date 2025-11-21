@@ -5,7 +5,7 @@ import { Icon } from '@iconify/vue';
 import { useForm } from 'vee-validate';
 import { Lock, Message } from '@element-plus/icons-vue';
 import { EFieldType } from '@/constants/index.constants';
-import { BaseButton, BaseForm } from '@/components/index.components';
+import { BaseButton, BaseDivider, BaseForm } from '@/components/index.components';
 import type { TFormConfig } from '@/components/form/base-form.config';
 import type { TInputConfig } from '@/components/input/base-input.config';
 import type { TButtonConfig } from '@/components/button/base-button.config';
@@ -14,6 +14,7 @@ import {
   VALIDATION_NUMBER,
   VALIDATION_REGEX,
 } from '@/constants/validate.constants';
+import type { TDividerConfig } from '@/components/divider/base-divider.config';
 //#endregion
 
 //#region Props & Emits
@@ -78,6 +79,11 @@ const btnFacebookConfig: TButtonConfig = {
   type: 'default',
   class: 'w-full',
 };
+
+const dividerConfig: TDividerConfig = {
+  borderStyle: 'dashed',
+  class: 'register-divider',
+};
 //#endregion
 
 //#region Reactive state
@@ -126,13 +132,15 @@ const formConfig: TFormConfig = {
 
 <template>
   <div class="w-screen h-screen overflow-hidden bg-[#bc84e1] flex items-center justify-center">
-    <div class="w-[400px] bg-white rounded-3xl p-[40px]">
+    <div
+      class="shadow-lg w-[400px] max-w-[94%] max-h-[96%] bg-white rounded-3xl p-[20px] sm:p-[40px]"
+    >
       <img
         src="/src/assets/images/logo_circle.png"
         alt="logo"
-        class="shadow-lg rounded-[22px] size-[80px] mx-auto mb-[18px] select-none"
+        class="shadow-lg rounded-[20px] size-[80px] mx-auto mb-[18px] select-none"
       />
-      <h1 class="text-center text-[20px] font-semibold mb-[2px] select-none">Register</h1>
+      <h1 class="text-center text-[24px] font-semibold mb-[4px] select-none">Register</h1>
       <p class="text-center text-gray mb-[18px] leading-5 px-[20px] select-none">
         Stop managing tasks, start executing goals. For free
       </p>
@@ -143,7 +151,9 @@ const formConfig: TFormConfig = {
       <BaseButton :config="btnSubmitConfig" @onClick="() => onClickSubmit()">
         Get Started
       </BaseButton>
-      <p class="text-center text-[13px] my-[12px] text-gray select-none">Or register with</p>
+      <p class="text-center text-[13px] my-[12px] text-gray select-none">
+        <BaseDivider :config="dividerConfig"> Or register with </BaseDivider>
+      </p>
       <div class="flex items-center justify-between gap-x-[20px]">
         <BaseButton :config="btnGoogleConfig">
           <Icon icon="material-icon-theme:google" :width="18" :height="18" />
@@ -155,3 +165,9 @@ const formConfig: TFormConfig = {
     </div>
   </div>
 </template>
+
+<style scoped>
+:deep(.register-divider .el-divider__text) {
+  font-size: 13px;
+}
+</style>

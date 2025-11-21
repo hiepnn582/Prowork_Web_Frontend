@@ -4,5 +4,6 @@ const BaseField = defineAsyncComponent(() => import('./field/BaseField.vue'));
 const BaseForm = defineAsyncComponent(() => import('./form/BaseForm.vue'));
 const BaseInput = defineAsyncComponent(() => import('./input/BaseInput.vue'));
 const BaseButton = defineAsyncComponent(() => import('./button/BaseButton.vue'));
+const BaseDivider = defineAsyncComponent(() => import('./divider/BaseDivider.vue'));
 
-export { BaseField, BaseForm, BaseInput, BaseButton };
+export { BaseField, BaseForm, BaseInput, BaseButton, BaseDivider };
