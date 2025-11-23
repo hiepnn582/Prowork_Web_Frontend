@@ -15,6 +15,7 @@ import {
   VALIDATION_REGEX,
 } from '@/constants/validate.constants';
 import type { TDividerConfig } from '@/components/divider/base-divider.config';
+import { FIELD_NAME } from '../constants/field.constants';
 //#endregion
 
 //#region Props & Emits
@@ -24,38 +25,59 @@ import type { TDividerConfig } from '@/components/divider/base-divider.config';
 //#region Composables
 const { handleSubmit } = useForm({
   validationSchema: yup.object({
-    account: yup
+    username: yup
       .string()
       .trim()
-      .required(validationMessage.required('Account'))
+      .required(validationMessage.required(FIELD_NAME.USERNAME))
       .max(
-        VALIDATION_NUMBER.MAX_ACCOUNT_CHARACTERS,
-        validationMessage.maxCharacters('Account', VALIDATION_NUMBER.MAX_ACCOUNT_CHARACTERS),
+        VALIDATION_NUMBER.MAX_USERNAME_CHARACTERS,
+        validationMessage.maxCharacters(
+          FIELD_NAME.USERNAME,
+          VALIDATION_NUMBER.MAX_USERNAME_CHARACTERS,
+        ),
       ),
     password: yup
       .string()
       .trim()
-      .required(validationMessage.required('Password'))
+      .required(validationMessage.required(FIELD_NAME.PASSWORD))
       .min(
         VALIDATION_NUMBER.MIN_PASSWORD_CHARACTERS,
-        validationMessage.minCharacters('Password', VALIDATION_NUMBER.MIN_PASSWORD_CHARACTERS),
+        validationMessage.minCharacters(
+          FIELD_NAME.PASSWORD,
+          VALIDATION_NUMBER.MIN_PASSWORD_CHARACTERS,
+        ),
       )
       .max(
         VALIDATION_NUMBER.MAX_PASSWORD_CHARACTERS,
-        validationMessage.maxCharacters('Password', VALIDATION_NUMBER.MAX_PASSWORD_CHARACTERS),
+        validationMessage.maxCharacters(
+          FIELD_NAME.PASSWORD,
+          VALIDATION_NUMBER.MAX_PASSWORD_CHARACTERS,
+        ),
       )
       .matches(VALIDATION_REGEX.PASSWORD_RULES, validationMessage.passwordRules),
+    confirmPassword: yup
+      .string()
+      .trim()
+      .required(validationMessage.required(FIELD_NAME.CONFIRM_PASSWORD))
+      .oneOf([yup.ref('password')], validationMessage.confirmPasswordRules),
   }),
 });
 
-const inputAccountConfig: TInputConfig = {
-  placeholder: 'Account',
+const inputUsernameConfig: TInputConfig = {
+  placeholder: FIELD_NAME.USERNAME,
   prefixIcon: Message,
 };
 
 const inputPasswordConfig: TInputConfig = {
   type: 'password',
-  placeholder: 'Password',
+  placeholder: FIELD_NAME.PASSWORD,
+  showPassword: true,
+  prefixIcon: Lock,
+};
+
+const inputConfirmPasswordConfig: TInputConfig = {
+  type: 'password',
+  placeholder: FIELD_NAME.CONFIRM_PASSWORD,
   showPassword: true,
   prefixIcon: Lock,
 };
@@ -104,14 +126,19 @@ const onClickSubmit = () => {
 const formConfig: TFormConfig = {
   fieldPropsList: [
     {
-      fieldName: 'account',
+      fieldName: 'username',
       fieldType: EFieldType.Input,
-      fieldConfig: inputAccountConfig,
+      fieldConfig: inputUsernameConfig,
     },
     {
       fieldName: 'password',
       fieldType: EFieldType.Input,
       fieldConfig: inputPasswordConfig,
+    },
+    {
+      fieldName: 'confirmPassword',
+      fieldType: EFieldType.Input,
+      fieldConfig: inputConfirmPasswordConfig,
     },
   ],
 };
