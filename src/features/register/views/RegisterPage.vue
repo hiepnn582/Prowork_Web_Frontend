@@ -29,6 +29,13 @@ const { handleSubmit } = useForm({
       .string()
       .trim()
       .required(validationMessage.required(FIELD_NAME.USERNAME))
+      .min(
+        VALIDATION_NUMBER.MIN_USERNAME_CHARACTERS,
+        validationMessage.minCharacters(
+          FIELD_NAME.USERNAME,
+          VALIDATION_NUMBER.MIN_USERNAME_CHARACTERS,
+        ),
+      )
       .max(
         VALIDATION_NUMBER.MAX_USERNAME_CHARACTERS,
         validationMessage.maxCharacters(
