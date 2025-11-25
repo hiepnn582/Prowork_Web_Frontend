@@ -160,7 +160,7 @@ const formConfig: TFormConfig = {
 <template>
   <div class="w-screen h-screen overflow-hidden bg-[#bc84e1] flex items-center justify-center">
     <div
-      class="shadow-lg w-[400px] max-w-[94%] max-h-[96%] bg-white rounded-3xl p-[20px] sm:p-[40px]"
+      class="shadow-lg w-[400px] max-w-[94%] max-h-[96%] overflow-auto bg-white rounded-3xl p-[20px] sm:p-[40px]"
     >
       <img
         src="/src/assets/images/logo_circle.png"
