@@ -1,5 +1,6 @@
 const VALIDATION_NUMBER = {
   MAX_USERNAME_CHARACTERS: 100,
+  MIN_USERNAME_CHARACTERS: 4,
   MIN_PASSWORD_CHARACTERS: 8,
   MAX_PASSWORD_CHARACTERS: 50,
 };
@@ -15,7 +16,7 @@ const validationMessage = {
   minCharacters: (field: string, numberCharacters: number) =>
     `${field} must contain at least ${numberCharacters} characters`,
   passwordRules:
-    'Password must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number',
+    'Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character',
   confirmPasswordRules: 'Confirm password does not match the entered password',
 };
 
