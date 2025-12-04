@@ -1,6 +1,6 @@
 import axios, { type AxiosInstance, type AxiosResponse, AxiosError } from 'axios';
-import { useAuthStore, useLoadingStore } from '@/stores/index.stores';
-import { APP_CODE } from '@/constants/index.constants';
+import { useAuthStore, useLoadingStore, useToastStore } from '@/stores/index.stores';
+import { APP_CODE, ToastType } from '@/constants/index.constants';
 
 const API_BASE_URL = import.meta.env.VITE_APP_API_URL;
 
@@ -32,6 +32,13 @@ apiClient.interceptors.request.use(
     const loadingStore = useLoadingStore();
     loadingStore.stop();
 
+    const toastStore = useToastStore();
+    toastStore.show({
+      title: 'Error',
+      type: ToastType.Error,
+      message: error,
+    });
+
     return Promise.reject(error);
   },
 );
@@ -53,6 +60,13 @@ apiClient.interceptors.response.use(
 
     const loadingStore = useLoadingStore();
     loadingStore.stop();
+
+    const toastStore = useToastStore();
+    toastStore.show({
+      title: 'Error',
+      type: ToastType.Error,
+      message: error.message,
+    });
 
     return Promise.reject(error);
   },

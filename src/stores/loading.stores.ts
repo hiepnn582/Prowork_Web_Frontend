@@ -6,7 +6,6 @@ export const useLoadingStore = defineStore('loading', () => {
 
   const start = () => {
     loadingInstance = ElLoading.service({ lock: true, background: 'rgba(0, 0, 0, 0.4)' });
-    loadingInstance.visible.value = true;
   };
 
   const stop = () => {
