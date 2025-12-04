@@ -9,6 +9,8 @@ import {
   validationMessage,
   VALIDATION_NUMBER,
   VALIDATION_REGEX,
+  APP_CODE,
+  RoutePath,
 } from '@/constants/index.constants';
 import { BaseButton, BaseDivider, BaseForm } from '@/components/index.components';
 import type { TFormConfig } from '@/components/form/base-form.config';
@@ -18,6 +20,8 @@ import type { TDividerConfig } from '@/components/divider/base-divider.config';
 import { FIELD_NAME } from '../constants/field.constants';
 import { LogoCircle } from '@/assets/images/index.images';
 import { AuthService } from '../../shared/apis/auth.apis';
+import { useAuthStore } from '@/stores/index.stores';
+import { useRouter } from 'vue-router';
 //#endregion
 
 //#region Props & Emits
@@ -126,12 +130,25 @@ const dividerConfig: TDividerConfig = {
 //#endregion
 
 //#region Methods
-const onSubmit = handleSubmit(() => {
-  AuthService.register({
-    username: values.username,
-    password: values.password,
-    confirmPassword: values.confirmPassword,
-  });
+const onSubmit = handleSubmit(async () => {
+  try {
+    const response = await AuthService.register({
+      username: values.username,
+      password: values.password,
+      confirmPassword: values.confirmPassword,
+    });
+
+    if (response.code === APP_CODE.CREATED) {
+      const authStore = useAuthStore();
+      authStore.setUser(response.data.user);
+      authStore.setAccessToken(response.data.token);
+
+      const router = useRouter();
+      router.push(RoutePath.Home);
+    }
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 const onClickSubmit = () => {

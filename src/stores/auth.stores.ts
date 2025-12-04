@@ -1,8 +1,15 @@
 import { ref } from 'vue';
+import { cloneDeep } from 'lodash';
 import { defineStore } from 'pinia';
+import type { TUserModel } from '@/features/auth/register/types/index.types';
 
 export const useAuthStore = defineStore('auth', () => {
+  const user = ref<TUserModel>();
   const accessToken = ref(localStorage.getItem('token'));
+
+  const setUser = (newUserData: TUserModel) => {
+    user.value = cloneDeep(newUserData);
+  };
 
   const setAccessToken = (newAccessToken: string) => {
     accessToken.value = newAccessToken;
@@ -11,8 +18,9 @@ export const useAuthStore = defineStore('auth', () => {
 
   const logout = () => {
     accessToken.value = '';
+    user.value = undefined;
     localStorage.removeItem('token');
   };
 
-  return { accessToken, setAccessToken, logout };
+  return { accessToken, setUser, setAccessToken, logout };
 });
