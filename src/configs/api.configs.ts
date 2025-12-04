@@ -1,5 +1,5 @@
 import axios, { type AxiosInstance, type AxiosResponse, AxiosError } from 'axios';
-import { useAuthStore } from '@/stores/index.stores';
+import { useAuthStore, useLoadingStore } from '@/stores/index.stores';
 import { APP_CODE } from '@/constants/index.constants';
 
 const API_BASE_URL = import.meta.env.VITE_APP_API_URL;
@@ -14,16 +14,24 @@ export const apiClient: AxiosInstance = axios.create({
 
 apiClient.interceptors.request.use(
   (config) => {
+    const loadingStore = useLoadingStore();
+    loadingStore.start();
+
     const authStore = useAuthStore();
     const token = authStore.accessToken;
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
     return config;
   },
   (error) => {
     // TODO: Xử lý lỗi request (Lỗi mạng, Lỗi cấu hình)
+
+    const loadingStore = useLoadingStore();
+    loadingStore.stop();
+
     return Promise.reject(error);
   },
 );
@@ -42,6 +50,9 @@ apiClient.interceptors.response.use(
     } else if (status === APP_CODE.FORBIDDEN) {
       // TODO: Xử lý lỗi quyền 403
     }
+
+    const loadingStore = useLoadingStore();
+    loadingStore.stop();
 
     return Promise.reject(error);
   },
