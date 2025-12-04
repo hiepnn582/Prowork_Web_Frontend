@@ -4,16 +4,16 @@ import * as yup from 'yup';
 import { Icon } from '@iconify/vue';
 import { useForm } from 'vee-validate';
 import { Lock, Message } from '@element-plus/icons-vue';
-import { EFieldType } from '@/constants/index.constants';
+import {
+  EFieldType,
+  validationMessage,
+  VALIDATION_NUMBER,
+  VALIDATION_REGEX,
+} from '@/constants/index.constants';
 import { BaseButton, BaseDivider, BaseForm } from '@/components/index.components';
 import type { TFormConfig } from '@/components/form/base-form.config';
 import type { TInputConfig } from '@/components/input/base-input.config';
 import type { TButtonConfig } from '@/components/button/base-button.config';
-import {
-  validationMessage,
-  VALIDATION_NUMBER,
-  VALIDATION_REGEX,
-} from '@/constants/validate.constants';
 import type { TDividerConfig } from '@/components/divider/base-divider.config';
 import { FIELD_NAME } from '../constants/field.constants';
 //#endregion
