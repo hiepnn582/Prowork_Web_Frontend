@@ -16,6 +16,8 @@ import type { TInputConfig } from '@/components/input/base-input.config';
 import type { TButtonConfig } from '@/components/button/base-button.config';
 import type { TDividerConfig } from '@/components/divider/base-divider.config';
 import { FIELD_NAME } from '../constants/field.constants';
+import { LogoCircle } from '@/assets/images/index.images';
+import { AuthService } from '../../shared/apis/auth.apis';
 //#endregion
 
 //#region Props & Emits
@@ -23,7 +25,7 @@ import { FIELD_NAME } from '../constants/field.constants';
 //#endregion
 
 //#region Composables
-const { handleSubmit } = useForm({
+const { values, handleSubmit } = useForm({
   validationSchema: yup.object({
     username: yup
       .string()
@@ -124,7 +126,13 @@ const dividerConfig: TDividerConfig = {
 //#endregion
 
 //#region Methods
-const onSubmit = handleSubmit(() => {});
+const onSubmit = handleSubmit(() => {
+  AuthService.register({
+    username: values.username,
+    password: values.password,
+    confirmPassword: values.confirmPassword,
+  });
+});
 
 const onClickSubmit = () => {
   onSubmit();
@@ -170,9 +178,9 @@ const formConfig: TFormConfig = {
       class="shadow-lg w-[400px] max-w-[94%] max-h-[96%] overflow-auto bg-white rounded-3xl p-[20px] sm:p-[40px]"
     >
       <img
-        src="/src/assets/images/logo_circle.png"
         alt="logo"
         class="shadow-lg rounded-[20px] size-[80px] mx-auto mb-[18px] select-none"
+        :src="LogoCircle"
       />
       <h1 class="text-center text-[24px] font-semibold mb-[4px] select-none">Register</h1>
       <p class="text-center text-gray mb-[18px] leading-5 px-[20px] select-none">
