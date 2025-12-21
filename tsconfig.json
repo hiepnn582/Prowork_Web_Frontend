@@ -12,6 +12,16 @@
     }
   ],
   "compilerOptions": {
-    "module": "NodeNext"
+    "target": "ES2020", // JS version sẽ được compile sang - ES11
+    "module": "ESNext", // ECMAScript latest version
+    "strict": true,
+    "jsx": "preserve", // Chỉ định cách xử lý cú pháp JSX/TSX để Vite xử lý sau
+    "moduleResolution": "bundler", // Chỉ định cách TypeScript tìm kiếm các module
+    "skipLibCheck": true,
+    "esModuleInterop": true, // Auto gen code handle các vấn đề về import/export của các module cũ
+    "allowSyntheticDefaultImports": true, // Cho phép import dù thư viện gốc không có export mặc định
+    "resolveJsonModule": true, // Cho phép nhập các tệp .json như một module thường
+    "isolatedModules": true, // Yêu cầu mỗi source file phải là một module
+    "types": ["vite/client"]
   }
 }

@@ -1,1 +1,32 @@
+@import './element-plus.css';
 @import './tailwindcss.css';
+
+:root {
+  --app-color-black: #212121;
+}
+
+html {
+  color: var(--app-color-black);
+  font-size: 14px;
+}
+
+::selection {
+  color: white;
+  background-color: var(--el-color-primary);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #bcbcbc;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
