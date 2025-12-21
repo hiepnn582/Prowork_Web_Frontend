@@ -10,7 +10,7 @@ import {
   VALIDATION_NUMBER,
   VALIDATION_REGEX,
   APP_CODE,
-  RoutePath,
+  RouteName,
 } from '@/constants/index.constants';
 import { BaseButton, BaseDivider, BaseForm } from '@/components/index.components';
 import type { TFormConfig } from '@/components/form/base-form.config';
@@ -22,6 +22,8 @@ import { LogoCircle } from '@/assets/images/index.images';
 import { AuthService } from '../../shared/apis/auth.apis';
 import { useAuthStore } from '@/stores/index.stores';
 import { useRouter } from 'vue-router';
+import type { TErrorResponse } from '@/types/service.types';
+import type { AxiosError } from 'axios';
 //#endregion
 
 //#region Props & Emits
@@ -29,7 +31,7 @@ import { useRouter } from 'vue-router';
 //#endregion
 
 //#region Composables
-const { values, handleSubmit } = useForm({
+const { values, handleSubmit, setFieldError } = useForm({
   validationSchema: yup.object({
     username: yup
       .string()
@@ -130,6 +132,8 @@ const dividerConfig: TDividerConfig = {
 //#endregion
 
 //#region Methods
+const router = useRouter();
+
 const onSubmit = handleSubmit(async () => {
   try {
     const response = await AuthService.register({
@@ -140,14 +144,22 @@ const onSubmit = handleSubmit(async () => {
 
     if (response.code === APP_CODE.CREATED) {
       const authStore = useAuthStore();
-      authStore.setUser(response.data.user);
-      authStore.setAccessToken(response.data.token);
+      authStore.setUser(response.data?.user);
+      authStore.setAccessToken(response.data?.token);
 
-      const router = useRouter();
-      router.push(RoutePath.Home);
+      router.push({
+        name: RouteName.Home,
+      });
     }
-  } catch (err) {
-    console.error(err);
+  } catch (err: unknown) {
+    if ((err as AxiosError).status === APP_CODE.CONFLICT) {
+      const errors = (err as AxiosError).response?.data as unknown as TErrorResponse;
+      Object.entries(errors).forEach((error) => {
+        setFieldError(error[0], error[1]);
+      });
+    } else {
+      console.error(err);
+    }
   }
 });
 
