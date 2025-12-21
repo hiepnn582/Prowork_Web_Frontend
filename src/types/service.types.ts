@@ -5,3 +5,7 @@ export type TServiceResponse<T> = {
   data: T;
   message?: string;
 };
+
+export type TErrorResponse = {
+  [key: string]: string;
+};

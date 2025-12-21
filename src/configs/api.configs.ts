@@ -45,6 +45,9 @@ apiClient.interceptors.request.use(
 
 apiClient.interceptors.response.use(
   (response: AxiosResponse) => {
+    const loadingStore = useLoadingStore();
+    loadingStore.stop();
+
     return response;
   },
   (error: AxiosError) => {
@@ -61,12 +64,14 @@ apiClient.interceptors.response.use(
     const loadingStore = useLoadingStore();
     loadingStore.stop();
 
-    const toastStore = useToastStore();
-    toastStore.show({
-      title: 'Error',
-      type: ToastType.Error,
-      message: error.message,
-    });
+    if (status !== APP_CODE.CONFLICT) {
+      const toastStore = useToastStore();
+      toastStore.show({
+        title: 'Error',
+        type: ToastType.Error,
+        message: error.message,
+      });
+    }
 
     return Promise.reject(error);
   },
