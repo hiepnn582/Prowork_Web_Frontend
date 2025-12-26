@@ -13,4 +13,9 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  test: {
+    // Allow to use 'describe', 'it', 'expect' without import
+    globals: true,
+    environment: 'jsdom',
+  },
 });
