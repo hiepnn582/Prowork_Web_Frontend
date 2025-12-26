@@ -1,36 +1,17 @@
-import { RouteName, RoutePath } from '@/constants/router.constants';
-import { HomePage } from '@/features/index.views';
+import { RouteName } from '@/constants/router.constants';
 import { createRouter, createWebHistory } from 'vue-router';
 import { authRoutes } from './auth.routes';
 import { useAuthStore } from '@/stores/auth.stores';
+import { homeRoutes } from './home.routes';
+import { errorRoutes } from './error.routes';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      name: '',
-      component: HomePage,
-      meta: {
-        title: 'Home Page',
-        auth: true,
-      },
-    },
-    ...authRoutes,
-    {
-      path: RoutePath.Home,
-      name: RouteName.Home,
-      component: HomePage,
-      meta: {
-        title: 'Home Page',
-        auth: true,
-      },
-    },
-  ],
+  routes: [...authRoutes, ...homeRoutes, ...errorRoutes],
 });
 
 router.beforeEach((to, from, next) => {
-  if (from.path === to.path) next();
+  if (from.path === to.path && to.path !== '/') next();
 
   document.title = to.meta?.title
     ? (to.meta.title as string) + ' | Prowork - hiepnn'
